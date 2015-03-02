@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Kinds in Scala</title>
+    <title>Higher-Kinded Types in Scala</title>
 
     <meta name="description" content="Kinds in Scala">
     <meta name="author" content="Jacek Laskowski">
@@ -40,12 +40,110 @@
 
       <div class="slides">
         <section class="intro" data-transition="zoom">
-          <h1>Kinds in Scala</h1>
-          <h4>Practically mostly introduction</h4>
+          <h1>Higher-Kinded Types in Scala</h1>
+          <h4>Practically mostly introduction...ly</h4>
           <br>
           <p>
             <small>Created by <a href="http://blog.jaceklaskowski.pl">Jacek Laskowski</a> / <a href="http://twitter.com/jaceklaskowski">@jaceklaskowski</a></small>
           </p>
+        </section>
+
+        <section>
+          <h2>Scala Language Specification</h2>
+          <h2>Chapter 3 Types</h2>
+          <p>
+            <small><a href="http://www.scala-lang.org/files/archive/spec/2.11/03-types.html">http://www.scala-lang.org/files/archive/spec/2.11/03-types.html</a></small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Scala spec - Chapter 3 Types</h2>
+
+          <section data-markdown>
+            <script type="text/template">
+* first-order types vs type constructors
+
+
+```
+scala> :t Int
+Int.type
+
+scala> class A[T](t: T)
+defined class A
+
+scala> :t new A(5)
+// ???
+```
+
+* What's the type of the last expression?
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+```
+// class A[T](t: T)
+
+scala> :t new A(5)
+A[Int]
+```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+
+* *type constructors* take type parameters and yield types
+
+```
+// class A[T](t: T)
+
+scala> :t new A(5)
+A[Int]
+
+scala> :t new A("hello")
+A[String]
+
+scala> :t new A(new A(10))
+A[A[Int]]
+```
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+```
+// class A[T](t: T)
+
+scala> new A("hello")
+// What's the type???
+
+scala> :t new A("hello")
+// What's the type???
+
+scala> :t new A(new A(10))
+// What's the type???
+```
+            </script>
+          </section>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+          ## About Kinds
+
+* Types have kinds
+* The kind is to type as type is to function
+* Kinds are the types for types (*aka* meta-types)
+* See [Haskell Kinds](http://yogsototh.github.io/Category-Theory-Presentation/#slide-45)
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+          ## Functors
+
+* `Functor` is a type class used for types that can be mapped over.
+* Examples: FIXME
+* See [Haskell Functors for the programmer](http://yogsototh.github.io/Category-Theory-Presentation/#slide-50)
+          </script>
         </section>
 
         <section style="text-align: left;">
